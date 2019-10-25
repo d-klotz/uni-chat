@@ -1,16 +1,15 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-  max-width: 50%;
+  /* max-width: 50%; */
+  display: flex;
+  flex-flow: column;
 `;
 
 export const ListItem = styled.span`
   margin: 10px;
   color: #eeeeee;
-  position: relative;
-  flex-direction: column;
-  display: flex;
-  justify-content: flex-start;
+  align-self: ${props => props.myMessage ? 'flex-end' : 'flex-start'};
 `;
 
 export const MessageContent = styled.div`
@@ -22,7 +21,6 @@ export const MessageContent = styled.div`
   padding-left: 10px;
   padding-right: 10px;
   height: 30px;
-  margin-right: auto;
 `;
 
 export const TimeLayout = styled.span`
@@ -34,4 +32,5 @@ export const TimeLayout = styled.span`
 export const MessageTitle = styled.div`
   font-size: 14px;
   font-weight: 500;
+  align-self: ${props => props.myMessage ? 'flex-end' : 'flex-start'};
 `;

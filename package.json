@@ -7,6 +7,7 @@
     "@atlaskit/button": "^13.3.1",
     "@atlaskit/checkbox": "^10.1.0",
     "@atlaskit/form": "^6.2.3",
+    "@atlaskit/icon": "^19.0.8",
     "@atlaskit/textfield": "^3.0.7",
     "add": "^2.0.6",
     "axios": "^0.19.0",

@@ -1,36 +1,52 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom'; 
 
 import Sidebar from '../../Components/Sidebar';
 import User from '../../Components/User';
 import MessageList from '../../Components/MessageList';
-import { Container, Content, MessageInput, MessagesContainer } from './styles';
+import MessageInput from '../../Components/MessageInput';
+import formatDate from '../../utils'
+import { Container, Content, MessagesContainer } from './styles';
 
 const Chat = ({ isAuthenticated }) => {
 
+  // const [message, setMessage] = useState('');
+  const [messages, setMessages] = useState([]);
+
   let chatContainer = <Redirect to="/"/>;
 
-  let messages = [{
-    emiter: 'Monica',
-    timestamp: '10:30 a.m',
-    content: 'Hello Alex'
-  },
-  {
-    emiter: 'Alex',
-    timestamp: '10:31 a.m',
-    content: 'Hi Monica'
-  },
-  {
-    emiter: 'Alex',
-    timestamp: '10:31 a.m',
-    content: 'How are you doing?'
-  },
-  {
-    emiter: 'Monica',
-    timestamp: '10:35 a.m',
-    content: 'Im doing great, what about you? Ready for the party?'
-  }];
+  useEffect(() => {
+    setMessages([{
+      emiter: 'Monica',
+      timestamp: '10:30 a.m',
+      content: 'Hello Alex'
+    },
+    {
+      emiter: 'Alex',
+      timestamp: '10:31 a.m',
+      content: 'Hi Monica'
+    },
+    {
+      emiter: 'Alex',
+      timestamp: '10:31 a.m',
+      content: 'How are you doing?'
+    },
+    {
+      emiter: 'Monica',
+      timestamp: '10:35 a.m',
+      content: 'Im doing great, what about you? Ready for the party?'
+    }]);
+  }, []);  
+
+  const handleSendMessage = (newMessage) => {
+    // setMessage(newMessage);
+    setMessages([...messages, {
+      emiter: 'Monica',
+      timestamp: formatDate(new Date()),
+      content: newMessage
+    }]);
+  }
 
   if (isAuthenticated) {
     chatContainer = (
@@ -42,7 +58,10 @@ const Chat = ({ isAuthenticated }) => {
           <MessagesContainer>
             <MessageList messages={messages}/>
           </MessagesContainer>
-          <MessageInput />
+          <MessageInput 
+            placeholder="Write your message..." 
+            buttonColor="#393e46"
+            clicked={newMessage => handleSendMessage(newMessage)}/>
         </Content>
       </Container>
     )

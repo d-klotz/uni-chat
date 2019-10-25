@@ -16,13 +16,27 @@ export const Content = styled.div`
   margin-left: 15px;
 `;
 
-export const MessageInput = styled.div`
-  background: #eeeeee;
-  height: 45px;
-  width: 100%;
-  border-radius: 20px;
-`;
-
 export const MessagesContainer = styled.div`
   height: 90%;
+  overflow: scroll;
+  overflow-x: hidden; 
+  display: flex;
+  flex-direction: column-reverse;
+
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #393e46; 
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: #393e46; 
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #393e46; 
+  }
+
 `;
