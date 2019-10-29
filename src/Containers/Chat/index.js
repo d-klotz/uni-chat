@@ -3,15 +3,14 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom'; 
 
 import Sidebar from '../../Components/Sidebar';
-import User from '../../Components/User';
 import MessageList from '../../Components/MessageList';
 import MessageInput from '../../Components/MessageInput';
+import SidebarContainer from '../../Containers/SidebarContainer';
 import formatDate from '../../utils'
 import { Container, Content, MessagesContainer } from './styles';
 
 const Chat = ({ isAuthenticated }) => {
-
-  // const [message, setMessage] = useState('');
+  
   const [messages, setMessages] = useState([]);
 
   let chatContainer = <Redirect to="/"/>;
@@ -40,7 +39,6 @@ const Chat = ({ isAuthenticated }) => {
   }, []);  
 
   const handleSendMessage = (newMessage) => {
-    // setMessage(newMessage);
     setMessages([...messages, {
       emiter: 'Monica',
       timestamp: formatDate(new Date()),
@@ -52,7 +50,7 @@ const Chat = ({ isAuthenticated }) => {
     chatContainer = (
       <Container>
         <Sidebar color="#222831">
-          <User username="Daniel klotz"/>
+          <SidebarContainer />
         </Sidebar>
         <Content>
           <MessagesContainer>

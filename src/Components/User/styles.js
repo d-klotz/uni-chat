@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-  margin: 10px;
+  margin: 15px 10px;
   flex-flow: column;
   text-align: center;
 `;
@@ -11,6 +11,7 @@ export const AvatarStyle = styled.div`
 `;
 
 export const UserName = styled.span `
-  color: white;
-  font-size: 16px;
+  color: #00adb5;
+  font-weight: 500;
+  font-size: 18px;
 `;

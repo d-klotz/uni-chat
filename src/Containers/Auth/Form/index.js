@@ -11,10 +11,11 @@ import Form, {
   ValidMessage,
 } from '@atlaskit/form';
 
+import Banner from '../../../Components/Banner';
 import * as actions from '../../../store/actions/index';
 import { Container } from './styles'; 
 
-const LogginForm = ({onAuth, loading, authRedirectPath, isAuthenticated}) => {
+const LogginForm = ({onAuth, loading, authRedirectPath, isAuthenticated, error}) => {
 
   const [isSignup, setSignedUp] = useState(false);
 
@@ -37,9 +38,17 @@ const LogginForm = ({onAuth, loading, authRedirectPath, isAuthenticated}) => {
     return undefined;
   }
 
-  let authRedirect = null
+  let authRedirect = null;
   if (isAuthenticated) {
     authRedirect = <Redirect  to ={authRedirectPath}/>
+  }
+
+  let authError = null;
+  if (error) {
+    authError =
+      <Banner color="red">
+      {error.message}
+      </Banner>
   }
 
   return (
@@ -113,7 +122,8 @@ const LogginForm = ({onAuth, loading, authRedirectPath, isAuthenticated}) => {
               </FormFooter>
             </form>
           )}
-        </Form>
+        </Form>        
+        {authError}
       </Container>
     </div>
   )

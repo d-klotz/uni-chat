@@ -6,4 +6,5 @@ export const Container = styled.div`
   min-width: 200px;
   display: flex;
   flex-flow: column;
+  flex: 1;
 `;
