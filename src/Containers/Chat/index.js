@@ -22,6 +22,10 @@ const Chat = ({ isAuthenticated }) => {
     socket.on('newMessage', (message) => {
       setMessages(previous => [...previous, message])
     });
+
+    // return () => {
+    //   socket.off();
+    // }
    }, [socket]);
 
   useEffect(() => {

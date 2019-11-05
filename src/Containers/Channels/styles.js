@@ -15,14 +15,15 @@ export const Container = styled.div`
     margin: 10px 0;
     list-style-type: none;
   }
+`;
 
-  li {
-    padding: 10px;
-    font-size: 16px;
-    cursor: pointer;
-  }
+export const List = styled.li`
+  padding: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  background-color: ${props => props.selectedChannel ? '#3a4750' : '#222831'};
 
-  li:hover {
+  :hover {
     background-color: #3a4750;
   }
-`;
+`

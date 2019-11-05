@@ -1,14 +1,28 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import Select from '@atlaskit/select';
 import SettingsIcon from '@atlaskit/icon/glyph/settings';
+
 import User from '../../Components/User';
 import Channels from '../Channels';
+import api from '../../services/api';
 import { Container, ContainerItem } from './styles';
 
 export default function SidebarContainer() {
 
-  const channels = ['general', 'reactJs', 'java', 'random']
+  const [channels, setChannels] = useState([]);
+  const groupId = 1;
+  const selectedChannel = 1;
+
+  useEffect(() => {
+    fetchChannels(groupId);
+  }, [groupId]);
+  
+  const fetchChannels = async (groupId) => {
+    await api.get(`/groups/${groupId}/channels`)
+      .then(res => res.data ? setChannels(res.data.channels) : setChannels([]))
+      .catch(err => console.log(err));
+  }
 
   return (
     <Container>
@@ -24,7 +38,7 @@ export default function SidebarContainer() {
           ]}
           placeholder="Your Groups"
         />
-        <Channels channels={channels}/>
+        <Channels channels={channels} selectedChannel={selectedChannel}/>
       </ContainerItem>
       
       <ContainerItem>
