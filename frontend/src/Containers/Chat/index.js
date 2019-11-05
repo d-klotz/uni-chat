@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom'; 
-
+import { Redirect } from 'react-router-dom';
+import socketio from 'socket.io-client';
 import Sidebar from '../../Components/Sidebar';
 import MessageList from '../../Components/MessageList';
 import MessageInput from '../../Components/MessageInput';
@@ -13,37 +13,31 @@ const Chat = ({ isAuthenticated }) => {
   
   const [messages, setMessages] = useState([]);
 
-  let chatContainer = <Redirect to="/"/>;
+  const userId = localStorage.getItem('userId');
+  const socket = useMemo(() => socketio('http://localhost:3333', {
+    query: { userId }
+  }), [userId]);
+
+  socket.on('newMessage', (message) => {
+    setMessages([...messages, message])
+  });
 
   useEffect(() => {
-    setMessages([{
-      emiter: 'Monica',
-      timestamp: '10:30 a.m',
-      content: 'Hello Alex'
-    },
-    {
-      emiter: 'Alex',
-      timestamp: '10:31 a.m',
-      content: 'Hi Monica'
-    },
-    {
-      emiter: 'Alex',
-      timestamp: '10:31 a.m',
-      content: 'How are you doing?'
-    },
-    {
-      emiter: 'Monica',
-      timestamp: '10:35 a.m',
-      content: 'Im doing great, what about you? Ready for the party?'
-    }]);
-  }, []);  
+    socket.emit('join', userId);
+  }, [socket, userId]);
+
+
+  let chatContainer = <Redirect to="/"/>; 
 
   const handleSendMessage = (newMessage) => {
-    setMessages([...messages, {
-      emiter: 'Monica',
+    console.log(userId);
+    const message = {
+      emitter: userId,
+      room: 'general',
       timestamp: formatDate(new Date()),
-      content: newMessage
-    }]);
+      content: newMessage,
+    };
+    socket.emit('createMessage', message);
   }
 
   if (isAuthenticated) {

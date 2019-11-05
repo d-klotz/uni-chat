@@ -7,7 +7,7 @@ const Channels = ({ channels }) => {
     <Container>
       <p>Channels</p>
       <ul>
-        {channels.map(channel => <li># {channel}</li>)}
+        {channels.map((channel, index) => <li key={index}># {channel}</li>)}
       </ul>
 
       <ul>
