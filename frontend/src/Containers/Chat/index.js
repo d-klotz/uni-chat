@@ -18,9 +18,11 @@ const Chat = ({ isAuthenticated }) => {
     query: { userId }
   }), [userId]);
 
-  socket.on('newMessage', (message) => {
-    setMessages([...messages, message])
-  });
+  useEffect(() => {
+    socket.on('newMessage', (message) => {
+      setMessages(previous => [...previous, message])
+    });
+   }, [socket]);
 
   useEffect(() => {
     socket.emit('join', userId);
