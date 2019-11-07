@@ -23,10 +23,10 @@ const Chat = ({ isAuthenticated }) => {
       setMessages(previous => [...previous, message])
     });
 
-    // return () => {
-    //   socket.off();
-    // }
-   }, [socket]);
+    return () => {
+      socket.off();
+    }
+  }, [socket]);
 
   useEffect(() => {
     socket.emit('join', userId);
