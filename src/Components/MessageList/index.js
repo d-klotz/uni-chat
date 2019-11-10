@@ -1,14 +1,15 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 import { Container, ListItem, MessageContent, TimeLayout, MessageTitle } from './styles';
 
-const MessageList = (props) => {
+const MessageList = ({username, messages}) => {
 
-  const me = localStorage.getItem('userId');
+  const me = username;
 
   return (
     <Container>
-      {props.messages.map((message, index) => (
+      {messages.map((message, index) => (
         <ListItem key={index} myMessage={message.emitter === me}>
           <MessageTitle>{message.emitter} <TimeLayout>{message.timestamp}</TimeLayout></MessageTitle>
           <MessageContent myMessage={message.emitter === me}>
@@ -20,4 +21,11 @@ const MessageList = (props) => {
   );
 }
 
-export default MessageList;
+
+const mapStateToProps = state => {
+  return {
+    username: state.auth.username
+  }
+}
+
+export default connect(mapStateToProps, {})(MessageList);

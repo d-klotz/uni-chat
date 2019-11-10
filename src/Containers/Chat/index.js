@@ -2,6 +2,8 @@ import React, { useState, useMemo, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import socketio from 'socket.io-client';
+
+import * as actions from '../../store/actions';
 import Sidebar from '../../Components/Sidebar';
 import MessageList from '../../Components/MessageList';
 import MessageInput from '../../Components/MessageInput';
@@ -9,14 +11,19 @@ import SidebarContainer from '../../Containers/SidebarContainer';
 import formatDate from '../../utils'
 import { Container, Content, MessagesContainer } from './styles';
 
-const Chat = ({ isAuthenticated }) => {
+const Chat = ({ isAuthenticated, username, onFetchUserData }) => {
   
   const [messages, setMessages] = useState([]);
 
-  const userId = localStorage.getItem('userId');
+
   const socket = useMemo(() => socketio('http://localhost:3333', {
-    query: { userId }
-  }), [userId]);
+    query: { username }
+  }), [username]);
+
+  useEffect(() => {
+    const userId = localStorage.getItem('userId');
+    onFetchUserData(userId);
+  }, [onFetchUserData]);
 
   useEffect(() => {
     socket.on('newMessage', (message) => {
@@ -29,16 +36,15 @@ const Chat = ({ isAuthenticated }) => {
   }, [socket]);
 
   useEffect(() => {
-    socket.emit('join', userId);
-  }, [socket, userId]);
+    socket.emit('join', username);
+  }, [socket, username]);
 
 
   let chatContainer = <Redirect to="/"/>; 
 
   const handleSendMessage = (newMessage) => {
-    console.log(userId);
     const message = {
-      emitter: userId,
+      emitter: username,
       room: 'general',
       timestamp: formatDate(new Date()),
       content: newMessage,
@@ -70,8 +76,17 @@ const Chat = ({ isAuthenticated }) => {
 
 const mapStateToProps = state => {
   return {
-    isAuthenticated: state.auth.token !== null
+    isAuthenticated: state.auth.token !== null,
+    username: state.auth.username
   }
 }
 
-export default connect(mapStateToProps, {})(Chat);
+
+
+const mapDispatchToProps = dispatch => {
+  return {
+      onFetchUserData: (userId) => dispatch(actions.fetchUserData(userId))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Chat);

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
 
 import Select from '@atlaskit/select';
 import Modal, { ModalTransition } from '@atlaskit/modal-dialog';
@@ -16,7 +17,7 @@ const fetchPinnedChannels = async (groupId, user_id) => {
   });
 }
 
-const SidebarContainer = () => {
+const SidebarContainer = ({username}) => {
 
   const [channels, setChannels] = useState([]);
   const [pinnedChannels, setPinnedChannels] = useState([]);
@@ -83,7 +84,7 @@ const SidebarContainer = () => {
           </Modal>)}
       </ModalTransition>
       <ContainerItem>
-        <User username="Daniel Klotz"/>
+        <User username={username}/>
         <Select
           className="single-select"
           classNamePrefix="react-select"
@@ -111,4 +112,11 @@ const SidebarContainer = () => {
   );
 }
 
-export default SidebarContainer;
+
+const mapStateToProps = state => {
+  return {
+      username: state.auth.username,
+  }
+}
+
+export default connect(mapStateToProps, {})(SidebarContainer);

@@ -19,8 +19,12 @@ const LogginForm = ({onAuth, loading, authRedirectPath, isAuthenticated, error})
 
   const [isSignup, setSignedUp] = useState(false);
 
-  const handleFormSubmit = (data) => {
-    onAuth(data.email, data.password, isSignup);
+  /**
+   * 
+   * @param {*} formInputs Contains all the form field values 
+   */
+  const handleFormSubmit = (formInputs) => {
+    onAuth(formInputs, isSignup);
   }
 
   const handleSwitchLoginSignup = () => {
@@ -35,6 +39,14 @@ const LogginForm = ({onAuth, loading, authRedirectPath, isAuthenticated, error})
     if (value !== password) {
       return 'DONT_MATCH';
     }
+    return undefined;
+  }
+
+  const validadeUsername = (value, formProps) => {
+    if (value.length < 3) {
+      return 'TOO_SHORT'
+    }
+
     return undefined;
   }
 
@@ -94,24 +106,44 @@ const LogginForm = ({onAuth, loading, authRedirectPath, isAuthenticated, error})
                 )}
               </Field>
               {isSignup && (
+                <Fragment>
+                  <Field
+                  name="confirmPassword"
+                  label="Confirm Password"
+                  defaultValue=""
+                  isRequired
+                  validate={value => validadePasswordMatch(value, formProps)}>
+                  {({ fieldProps, error, valid, meta }) => (
+                    <Fragment>
+                      <TextField type="password" {...fieldProps} />
+                      {error === 'DONT_MATCH' && (
+                        <ErrorMessage>
+                          Passwords are not the same 
+                        </ErrorMessage>
+                      )}
+                      {valid && meta.dirty && <ValidMessage>Password confirmed</ValidMessage>}
+                    </Fragment>
+                  )}
+                </Field>
                 <Field
-                name="confirmPassword"
-                label="Confirm Password"
-                defaultValue=""
-                isRequired
-                validate={value => validadePasswordMatch(value, formProps)}>
-                {({ fieldProps, error, valid, meta }) => (
-                  <Fragment>
-                    <TextField type="password" {...fieldProps} />
-                    {error === 'DONT_MATCH' && (
-                      <ErrorMessage>
-                        Passwords are not the same 
-                      </ErrorMessage>
-                    )}
-                    {valid && meta.dirty && <ValidMessage>Password confirmed</ValidMessage>}
-                  </Fragment>
+                  name="username"
+                  label="Username "
+                  defaultValue=""
+                  isRequired
+                  validate={value => validadeUsername(value, formProps)}>
+                    {({ fieldProps, error, valid, meta }) => (
+                      <Fragment>
+                        <TextField autoComplete="off" type="text" {...fieldProps}/>
+                        {error === 'TOO_SHORT' && (
+                          <ErrorMessage>
+                            This username is too short, use at least 3 characters.
+                          </ErrorMessage>
+                        )}
+                        { valid && meta.dirty&& <ValidMessage>Cool username!</ValidMessage>}
+                      </Fragment>
                 )}
-              </Field>
+                </Field>
+              </Fragment>
               )}            
               <FormFooter>
                 <ButtonGroup>

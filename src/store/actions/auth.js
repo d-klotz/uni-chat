@@ -15,6 +15,14 @@ export const authSuccess = (token, userId) => {
     };
 };
 
+export const setOnlineUser = (username, email) => {
+    return {
+        type: actionTypes.SET_ONLINE_USER,
+        username,
+        email
+    }
+}
+
 export const authFail = (error) => {
     return {
         type: actionTypes.AUTH_FAIL,
@@ -32,7 +40,6 @@ export const logout = () => {
 };
 
 export const setAuthRedirectPath = (path) => {
-    console.log(path);
     return {
         type: actionTypes.SET_AUTH_REDIRECT_PATH,
         path: path
@@ -47,12 +54,13 @@ export const checkAuthTimeout = (expirationTime) => {
     };
 };
 
-export const auth = (email, password, isSignup) => {
+export const auth = (user, isSignup) => {
     return async dispatch => {
         dispatch(authStart());
         const authData = {
-            email: email,
-            password: password,
+            email: user.email,
+            password: user.password,
+            username: user.username,
             isSignup: isSignup
         };
 
@@ -63,12 +71,23 @@ export const auth = (email, password, isSignup) => {
                 localStorage.setItem('expirationDate', expirationDate);
                 localStorage.setItem('userId', response.data.userId);
                 dispatch(authSuccess(response.data.token, response.data.userId));
-                dispatch(checkAuthTimeout(response.data.expiresIn));                
+                dispatch(checkAuthTimeout(response.data.expiresIn));            
                 dispatch(setAuthRedirectPath('/chat'));
             })
-            .catch(error => dispatch(authFail(error.response.data.error)));
+            .catch(error => dispatch(authFail(error.error)));
     };
 };
+
+export const fetchUserData = (userId) => {
+    return async dispatch => {
+        return await api.get(`/users/${userId}`)
+        .then(response => {      
+            dispatch(setOnlineUser(response.data.user.username, response.data.user.email));
+            console.log(response);
+        })
+        .catch(error => {console.log(error)});
+    };
+}
 
 export const authCheckState = () => {
     return dispatch => {
