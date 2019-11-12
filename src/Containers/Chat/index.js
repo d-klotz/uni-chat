@@ -16,7 +16,7 @@ const Chat = ({ isAuthenticated, username, onFetchUserData }) => {
   const [messages, setMessages] = useState([]);
 
 
-  const socket = useMemo(() => socketio('http://localhost:3333', {
+  const socket = useMemo(() => socketio('http://35.158.239.50:5000', {
     query: { username }
   }), [username]);
 
