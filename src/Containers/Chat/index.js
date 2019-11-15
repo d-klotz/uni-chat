@@ -16,7 +16,7 @@ const Chat = ({ isAuthenticated, username, onFetchUserData }) => {
   const [messages, setMessages] = useState([]);
 
 
-  const socket = useMemo(() => socketio('https://ec2-3-124-116-182.eu-central-1.compute.amazonaws.com:5000', {
+  const socket = useMemo(() => socketio('https://unichat.xyz', {
     query: { username }
   }), [username]);
 
