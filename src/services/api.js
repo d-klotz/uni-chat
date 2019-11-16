@@ -1,7 +1,8 @@
 import axios from 'axios';
+import { config } from '../constants'; 
 
 const api = axios.create({
-  baseURL: 'https://unichat.xyz',
+  baseURL: config.url.API_URL,
 });
 
 export default api;

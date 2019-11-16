@@ -2,105 +2,54 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 
 import Select from '@atlaskit/select';
-import Modal, { ModalTransition } from '@atlaskit/modal-dialog';
 import SettingsIcon from '@atlaskit/icon/glyph/settings';
+import { Field } from '@atlaskit/form';
+import Spinner from '@atlaskit/spinner';
 
-import User from '../../Components/User';
-import Channels from '../Channels';
 import api from '../../services/api';
+import User from '../../Components/User';
 import { Container, ContainerItem } from './styles';
-import ChannelsListingContainer from './ChannelsListingContainer';
-
-const fetchPinnedChannels = async (groupId, user_id) => {
-  return await api.get(`/groups/${groupId}/channels/pinned`, {
-    headers: { user_id }
-  });
-}
 
 const SidebarContainer = ({username}) => {
 
-  const [channels, setChannels] = useState([]);
-  const [pinnedChannels, setPinnedChannels] = useState([]);
-  const [isChannelsLoading, setIsChannelsLoading] = useState(false);
-  const [selectedChannel, setSelectedChannel] = useState(1);
-  const [isOpen, setIsOpen] = useState(false);
-  const groupId = 1;
+  const userId = localStorage.getItem('userId');
 
-  const user_id = localStorage.getItem('userId') 
+  const [groups, setGroups] = useState([]);
 
   useEffect(() => {
-    fetchPinnedChannels(groupId , user_id)    
-    .then(res => {
-      setPinnedChannels(res.data.channels);
-    })
-    .catch(() => {
-      setPinnedChannels([])
-    });
-  }, [user_id]);
-  
-  const fetchChannels = async (groupId) => {
-    setIsChannelsLoading(true);
-    await api.get(`/groups/${groupId}/channels`)
+    api.get(`/users/${userId}/groups`)
       .then(res => {
-        setChannels(res.data.channels);
-        setIsChannelsLoading(false);
+        const refinedGroups = res.data.groups.map(group => {
+          return { label: group.name, value: group._id }
+        });
+        setGroups(refinedGroups);
       })
-      .catch(() => {
-        setIsChannelsLoading(false);
-        setChannels([])
-      });
-  }
+  }, [userId]);
 
-  const handleChannelSelection = (channel) => {
-    setSelectedChannel(channel);
-  }
-
-  const handleChannelsListing = () => {
-    fetchChannels(groupId);
-    setIsOpen(true);
-  }
-
-  const handleCreateChannel = () => {
-    alert('criando novo canal');
-  }
-
-  const handleChannelListingModalClose = () => {
-    setIsOpen(false);
-  }
-
-  const handleEnterChannel = (channelId) => {
-    setPinnedChannels(previous => [...previous, channels.find(channel => channel.id === channelId)])
+  let fetchedgroups = <Spinner size="medium"/>
+  if (groups.length > 0) {
+    fetchedgroups = (
+      <Field
+        id="user-groups"
+        name="user-groups"
+        defaultValue={groups[0]}
+      >
+        {({ fieldProps }) => (
+          <Select
+            {...fieldProps}
+            options={groups}
+            placeholder="Your Groups"
+          />
+        )}
+      </Field>
+    )
   }
 
   return (
     <Container>
-      <ModalTransition>
-        {isOpen && (
-          <Modal heading="All Channels" onClose={handleChannelListingModalClose}>
-            <ChannelsListingContainer 
-              channels={channels}
-              isLoading={isChannelsLoading}
-              onEnterChannel={handleEnterChannel}/>
-          </Modal>)}
-      </ModalTransition>
       <ContainerItem>
         <User username={username}/>
-        <Select
-          className="single-select"
-          classNamePrefix="react-select"
-          options={[
-            { label: 'Tech Berlin', value: '2151214' },
-            { label: 'Finances in Lisboa', value: '53545' },
-            { label: 'The Dev Group', value: '312313' },
-          ]}
-          placeholder="Your Groups"
-        />
-        <Channels 
-          channels={pinnedChannels} 
-          selectedChannel={selectedChannel} 
-          onChannelSelection={handleChannelSelection}
-          onChannelsListing={handleChannelsListing}
-          onChannelCreate={handleCreateChannel}/>
+        {fetchedgroups}
       </ContainerItem>
       
       <ContainerItem>
