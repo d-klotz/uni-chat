@@ -13,7 +13,7 @@ const MessageList = ({username, messages}) => {
         <ListItem key={index} myMessage={message.emitter === me}>
           <MessageTitle>{message.emitter} <TimeLayout>{message.timestamp}</TimeLayout></MessageTitle>
           <MessageContent myMessage={message.emitter === me}>
-            <spam>{message.content}</spam>
+            {message.content}
           </MessageContent>
         </ListItem>
       ) )}

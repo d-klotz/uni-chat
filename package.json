@@ -7,6 +7,7 @@
     "@atlaskit/banner": "^10.1.1",
     "@atlaskit/button": "^13.3.1",
     "@atlaskit/checkbox": "^10.1.0",
+    "@atlaskit/drawer": "^5.0.14",
     "@atlaskit/dropdown-menu": "^8.2.0",
     "@atlaskit/flag": "^12.3.3",
     "@atlaskit/form": "^6.2.3",

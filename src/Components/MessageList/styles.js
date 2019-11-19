@@ -21,12 +21,6 @@ export const MessageContent = styled.div`
   min-height: 30px;  
   position: relative;
   overflow:auto;
-
-  span {    
-    position: absolute;
-    right: 0;
-    top: 0;
-  }
 `;
 
 export const TimeLayout = styled.span`

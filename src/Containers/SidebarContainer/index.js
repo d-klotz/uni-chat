@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 
 import Select from '@atlaskit/select';
-import SettingsIcon from '@atlaskit/icon/glyph/settings';
 import { Field } from '@atlaskit/form';
 import Spinner from '@atlaskit/spinner';
 
@@ -50,12 +49,6 @@ const SidebarContainer = ({username}) => {
       <ContainerItem>
         <User username={username}/>
         {fetchedgroups}
-      </ContainerItem>
-      
-      <ContainerItem>
-      <p>
-        <SettingsIcon size="large"/>
-      </p>
       </ContainerItem>
     </Container>
   );
