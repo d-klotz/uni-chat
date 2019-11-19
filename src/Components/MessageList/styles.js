@@ -9,7 +9,7 @@ export const Container = styled.div`
 export const ListItem = styled.span`
   margin: 10px;
   color: #eeeeee;
-  align-self: ${props => props.myMessage ? 'flex-end' : 'flex-start'};
+  align-self: flex-start; 
 `;
 
 export const MessageContent = styled.div`
@@ -17,10 +17,16 @@ export const MessageContent = styled.div`
   font-size: 16px;
   border-radius: 20px;
   margin-top: 10px;
-  padding-top: 5px;
-  padding-left: 10px;
-  padding-right: 10px;
-  height: 30px;
+  padding: 5px 10px;
+  min-height: 30px;  
+  position: relative;
+  overflow:auto;
+
+  span {    
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
 `;
 
 export const TimeLayout = styled.span`

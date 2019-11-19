@@ -10,13 +10,14 @@ import MessageInput from '../../Components/MessageInput';
 import SidebarContainer from '../../Containers/SidebarContainer';
 import formatDate from '../../utils'
 import { Container, Content, MessagesContainer } from './styles';
+import { config } from '../../constants'; 
 
 const Chat = ({ isAuthenticated, username, onFetchUserData }) => {
   
   const [messages, setMessages] = useState([]);
 
 
-  const socket = useMemo(() => socketio('https://unichat.xyz', {
+  const socket = useMemo(() => socketio(config.url.API_URL, {
     query: { username }
   }), [username]);
 
