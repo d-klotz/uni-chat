@@ -10,12 +10,11 @@ import MessageInput from '../../Components/MessageInput';
 import SidebarContainer from '../../Containers/SidebarContainer';
 import formatDate from '../../utils'
 import { Container, Content, MessagesContainer } from './styles';
-import { config } from '../../constants'; 
+import { config } from '../../constants';
 
 const Chat = ({ isAuthenticated, username, onFetchUserData }) => {
   
-  const [messages, setMessages] = useState([]);
-
+  const [messages, setMessages] = useState([]);  
 
   const socket = useMemo(() => socketio(config.url.API_URL, {
     query: { username }
@@ -28,7 +27,7 @@ const Chat = ({ isAuthenticated, username, onFetchUserData }) => {
 
   useEffect(() => {
     socket.on('newMessage', (message) => {
-      setMessages(previous => [...previous, message])
+      setMessages(previous => [...previous, message]);
     });
 
     return () => {

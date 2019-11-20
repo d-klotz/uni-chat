@@ -10,6 +10,14 @@ export const Container = styled.div`
   display: flex;
   flex-flow: row;
   justify-content: space-between;
+
+  span {
+    position: relative;
+  }
+
+  span div {
+    padding: 5px;
+  }
 `;
 
 export const Input = styled.input.attrs(props => ({
