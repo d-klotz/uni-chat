@@ -36,7 +36,9 @@ const Chat = ({ isAuthenticated, username, onFetchUserData }) => {
   }, [socket]);
 
   useEffect(() => {
-    socket.emit('join', username);
+    if (username) {
+      socket.emit('join', username);
+    }
   }, [socket, username]);
 
 

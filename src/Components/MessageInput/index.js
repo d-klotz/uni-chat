@@ -56,7 +56,7 @@ import { Container, Input } from './styles';
         {showEmojiDrawer && emojiContainer}
       </span>
       <Input
-        ref={(input) => { chatInput = input; }}
+        ref={(input) => { chatInput = input }}
         placeholder={props.placeholder} 
         onKeyPress={keyPressed} 
         value={value}

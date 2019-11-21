@@ -15,11 +15,12 @@ export const authSuccess = (token, userId) => {
     };
 };
 
-export const setOnlineUser = (username, email) => {
+export const setOnlineUser = (username, email, photo) => {
     return {
         type: actionTypes.SET_ONLINE_USER,
         username,
-        email
+        email,
+        photo
     }
 }
 
@@ -82,8 +83,7 @@ export const fetchUserData = (userId) => {
     return async dispatch => {
         return await api.get(`/users/${userId}`)
         .then(response => {      
-            dispatch(setOnlineUser(response.data.user.username, response.data.user.email));
-            console.log(response);
+            dispatch(setOnlineUser(response.data.user.username, response.data.user.email, response.data.photo));
         })
         .catch(error => {console.log(error)});
     };

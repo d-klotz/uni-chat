@@ -9,7 +9,7 @@ import api from '../../services/api';
 import User from '../../Components/User';
 import { Container, ContainerItem } from './styles';
 
-const SidebarContainer = ({username}) => {
+const SidebarContainer = ({username, photo}) => {
 
   const userId = localStorage.getItem('userId');
 
@@ -58,6 +58,7 @@ const SidebarContainer = ({username}) => {
 const mapStateToProps = state => {
   return {
       username: state.auth.username,
+      photo: state.auth.foto
   }
 }
 

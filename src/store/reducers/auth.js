@@ -6,6 +6,7 @@ const initialState = {
     userId: null,
     userName: null,
     email: null,
+    photo: null,
     error: null,
     loading: false,
     authRedirectPath: '/'
@@ -27,7 +28,8 @@ const authSuccess = (state, action) => {
 const setOnlineUser = (state, action) => {
     return updateObject(state, {
         username: action.username,
-        email: action.email
+        email: action.email,
+        photo: action.photo
     });
 }
 
