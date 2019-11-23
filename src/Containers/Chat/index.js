@@ -2,19 +2,21 @@ import React, { useState, useMemo, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import socketio from 'socket.io-client';
+import Spinner from '@atlaskit/spinner';
 
 import * as actions from '../../store/actions';
 import Sidebar from '../../Components/Sidebar';
 import MessageList from '../../Components/MessageList';
 import MessageInput from '../../Components/MessageInput';
 import SidebarContainer from '../../Containers/SidebarContainer';
-import formatDate from '../../utils'
 import { Container, Content, MessagesContainer } from './styles';
 import { config } from '../../constants';
+import api from '../../services/api';
+import formatDate from '../../utils';
 
 const Chat = ({ isAuthenticated, username, onFetchUserData }) => {
   
-  const [messages, setMessages] = useState([]);  
+  const [messages, setMessages] = useState([]);
 
   const socket = useMemo(() => socketio(config.url.API_URL, {
     query: { username }
@@ -23,10 +25,12 @@ const Chat = ({ isAuthenticated, username, onFetchUserData }) => {
   useEffect(() => {
     const userId = localStorage.getItem('userId');
     onFetchUserData(userId);
+    fetchStoredMessages();
   }, [onFetchUserData]);
 
   useEffect(() => {
     socket.on('newMessage', (message) => {
+      message.timestamp = formatDate(message.timestamp);
       setMessages(previous => [...previous, message]);
     });
 
@@ -46,12 +50,29 @@ const Chat = ({ isAuthenticated, username, onFetchUserData }) => {
 
   const handleSendMessage = (newMessage) => {
     const message = {
+      //todo: implement redux storage for groupId
+      group: '5dcfb2502ee40f4e0e1695b0',
       emitter: username,
       room: 'general',
-      timestamp: formatDate(new Date()),
       content: newMessage,
     };
     socket.emit('createMessage', message);
+  }
+
+  const fetchStoredMessages = () => {
+    //todo: implement redux storage for groupId
+    const groupId = '5dcfb2502ee40f4e0e1695b0';
+    api.get(`/messages/${groupId}`)
+      .then(res => {
+        const savedMessages = res.data.map(message => {
+          return {
+            ...message,
+            timestamp: formatDate(message.timestamp)
+          }
+        });
+        setMessages(savedMessages.reverse());
+      })
+      .catch(error => console.error(error));
   }
 
   if (isAuthenticated) {
@@ -62,7 +83,8 @@ const Chat = ({ isAuthenticated, username, onFetchUserData }) => {
         </Sidebar>
         <Content>
           <MessagesContainer>
-            <MessageList messages={messages}/>
+            {messages.length === 0 && <Spinner />}
+            {messages.length > 0 && <MessageList messages={messages}/>}
           </MessagesContainer>
           <MessageInput 
             placeholder="Write your message..." 
@@ -82,8 +104,6 @@ const mapStateToProps = state => {
     username: state.auth.username
   }
 }
-
-
 
 const mapDispatchToProps = dispatch => {
   return {
