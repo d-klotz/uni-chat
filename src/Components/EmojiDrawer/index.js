@@ -6,7 +6,7 @@ import { Container } from './styles';
 const EmojiDrawer = (props) => {
   return (
     <Container onMouseLeave={props.mouseLeaved}>
-      <Picker onSelect={(emoji) => props.onEmojiAdd(emoji)} />
+      <Picker onSelect={(emoji) => props.onEmojiAdd(emoji)} set="google"/>
     </Container>
   )
 }

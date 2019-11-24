@@ -40,8 +40,9 @@ const Chat = ({ isAuthenticated, username, onFetchUserData }) => {
   }, [socket]);
 
   useEffect(() => {
+    const groupId = '5dcfb2502ee40f4e0e1695b0';
     if (username) {
-      socket.emit('join', username);
+      socket.emit('join', groupId);
     }
   }, [socket, username]);
 

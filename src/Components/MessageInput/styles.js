@@ -13,6 +13,7 @@ export const Container = styled.div`
 
   span {
     position: relative;
+    cursor: pointer;
   }
 
   span div {
