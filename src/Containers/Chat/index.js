@@ -17,6 +17,7 @@ import formatDate from '../../utils';
 const Chat = ({ isAuthenticated, username, onFetchUserData }) => {
   
   const [messages, setMessages] = useState([]);
+  const [onlineUsers, setOnlineUsers] = useState([]);
 
   const socket = useMemo(() => socketio(config.url.API_URL, {
     query: { username }
@@ -33,6 +34,22 @@ const Chat = ({ isAuthenticated, username, onFetchUserData }) => {
       message.timestamp = formatDate(message.timestamp);
       setMessages(previous => [...previous, message]);
     });
+
+    socket.on('onlineUsers', (retrievedUsers) => {
+      console.log(retrievedUsers);
+      console.log(Object.keys(retrievedUsers));
+      const users = Object.keys(retrievedUsers).map(user => {
+        return {
+          key: user,
+          name: user,
+          src: `https://eu.ui-avatars.com/api/?name=${user.substring(0, 2)}`,
+          appearance: 'circle',
+          size: 'medium',
+          enableTooltip: true
+        } 
+      });
+      setOnlineUsers(users);
+    })
 
     return () => {
       socket.off();
@@ -80,7 +97,7 @@ const Chat = ({ isAuthenticated, username, onFetchUserData }) => {
     chatContainer = (
       <Container>
         <Sidebar color="#222831">
-          <SidebarContainer />
+          <SidebarContainer onlineUsers={onlineUsers}/>
         </Sidebar>
         <Content>
           <MessagesContainer>

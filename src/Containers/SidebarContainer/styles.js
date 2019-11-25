@@ -17,3 +17,7 @@ export const ContainerItem = styled.div`
     flex-grow: 1;
   }
 `;
+
+export const GroupListContainer = styled.div`
+  margin: 10px;
+`

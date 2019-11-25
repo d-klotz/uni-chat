@@ -7,9 +7,10 @@ import Spinner from '@atlaskit/spinner';
 
 import api from '../../services/api';
 import User from '../../Components/User';
-import { Container, ContainerItem } from './styles';
+import OnlineUsers from '../../Components/OnlineUsers';
+import { Container, ContainerItem, GroupListContainer } from './styles';
 
-const SidebarContainer = ({username, photo}) => {
+const SidebarContainer = ({ username, onlineUsers }) => {
 
   const userId = localStorage.getItem('userId');
 
@@ -28,19 +29,21 @@ const SidebarContainer = ({username, photo}) => {
   let fetchedgroups = <Spinner size="medium"/>
   if (groups.length > 0) {
     fetchedgroups = (
-      <Field
-        id="user-groups"
-        name="user-groups"
-        defaultValue={groups[0]}
-      >
-        {({ fieldProps }) => (
-          <Select
-            {...fieldProps}
-            options={groups}
-            placeholder="Your Groups"
-          />
-        )}
-      </Field>
+      <GroupListContainer>
+        <Field
+          id="user-groups"
+          name="user-groups"
+          defaultValue={groups[0]}
+        >
+          {({ fieldProps }) => (
+            <Select
+              {...fieldProps}
+              options={groups}
+              placeholder="Your Groups"
+            />
+          )}
+        </Field>
+      </GroupListContainer>
     )
   }
 
@@ -49,6 +52,7 @@ const SidebarContainer = ({username, photo}) => {
       <ContainerItem>
         <User username={username}/>
         {fetchedgroups}
+        <OnlineUsers onlineUsers={onlineUsers} />
       </ContainerItem>
     </Container>
   );
@@ -57,8 +61,7 @@ const SidebarContainer = ({username, photo}) => {
 
 const mapStateToProps = state => {
   return {
-      username: state.auth.username,
-      photo: state.auth.foto
+      username: state.auth.username
   }
 }
 
