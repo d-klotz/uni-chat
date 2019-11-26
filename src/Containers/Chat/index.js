@@ -36,8 +36,6 @@ const Chat = ({ isAuthenticated, username, onFetchUserData }) => {
     });
 
     socket.on('onlineUsers', (retrievedUsers) => {
-      console.log(retrievedUsers);
-      console.log(Object.keys(retrievedUsers));
       const users = Object.keys(retrievedUsers).map(user => {
         return {
           key: user,
@@ -46,7 +44,7 @@ const Chat = ({ isAuthenticated, username, onFetchUserData }) => {
           appearance: 'circle',
           size: 'medium',
           enableTooltip: true
-        } 
+        }
       });
       setOnlineUsers(users);
     })
@@ -57,6 +55,7 @@ const Chat = ({ isAuthenticated, username, onFetchUserData }) => {
   }, [socket]);
 
   useEffect(() => {
+    //todo: implement redux storage for groupId
     const groupId = '5dcfb2502ee40f4e0e1695b0';
     if (username) {
       socket.emit('join', groupId);

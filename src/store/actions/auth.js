@@ -75,7 +75,9 @@ export const auth = (user, isSignup) => {
                 dispatch(checkAuthTimeout(response.data.expiresIn));            
                 dispatch(setAuthRedirectPath('/chat'));
             })
-            .catch(error => dispatch(authFail(error.error)));
+            .catch(error => {
+                dispatch(authFail(error.response.data))
+            });
     };
 };
 
