@@ -16,6 +16,7 @@ import formatDate from '../../utils';
 
 const Chat = ({ isAuthenticated, username, onFetchUserData, onFetchGroups, defaultGroup }) => {
   
+  const [userJoined, setUserJoined] = useState(false);
   const [messages, setMessages] = useState([]);
   const [onlineUsers, setOnlineUsers] = useState([]);
 
@@ -59,10 +60,11 @@ const Chat = ({ isAuthenticated, username, onFetchUserData, onFetchGroups, defau
   }, [socket]);
 
   useEffect(() => {
-    if (username && defaultGroup) {
+    if (!userJoined && username && defaultGroup) {
+      setUserJoined(true);
       socket.emit('join', defaultGroup._id);
     }
-  }, [defaultGroup, socket, username]);
+  }, [defaultGroup, socket, userJoined, username]);
 
   const fetchMessages = (defaultGroup) => {
     if (defaultGroup) {
