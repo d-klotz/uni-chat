@@ -14,7 +14,7 @@ import { config } from '../../constants';
 import api from '../../services/api';
 import formatDate from '../../utils';
 
-const Chat = ({ isAuthenticated, username, onFetchUserData }) => {
+const Chat = ({ isAuthenticated, username, onFetchUserData, onFetchGroups, defaultGroup }) => {
   
   const [messages, setMessages] = useState([]);
   const [onlineUsers, setOnlineUsers] = useState([]);
@@ -26,8 +26,12 @@ const Chat = ({ isAuthenticated, username, onFetchUserData }) => {
   useEffect(() => {
     const userId = localStorage.getItem('userId');
     onFetchUserData(userId);
-    fetchStoredMessages();
-  }, [onFetchUserData]);
+    onFetchGroups();
+  }, [onFetchGroups, onFetchUserData]);
+
+  useEffect(() => {
+    fetchMessages(defaultGroup);
+  }, [defaultGroup])
 
   useEffect(() => {
     socket.on('newMessage', (message) => {
@@ -55,41 +59,38 @@ const Chat = ({ isAuthenticated, username, onFetchUserData }) => {
   }, [socket]);
 
   useEffect(() => {
-    //todo: implement redux storage for groupId
-    const groupId = '5dcfb2502ee40f4e0e1695b0';
-    if (username) {
-      socket.emit('join', groupId);
+    if (username && defaultGroup) {
+      socket.emit('join', defaultGroup._id);
     }
-  }, [socket, username]);
+  }, [defaultGroup, socket, username]);
+
+  const fetchMessages = (defaultGroup) => {
+    if (defaultGroup) {
+      api.get(`/messages/${defaultGroup._id}`)
+        .then(res => {
+          const savedMessages = res.data.map(message => {
+            return {
+              ...message,
+              timestamp: formatDate(message.timestamp)
+            };
+          });
+          setMessages(savedMessages.reverse());
+        })
+        .catch(error => console.error(error));
+    }
+  }
 
 
   let chatContainer = <Redirect to="/"/>; 
 
   const handleSendMessage = (newMessage) => {
     const message = {
-      //todo: implement redux storage for groupId
-      group: '5dcfb2502ee40f4e0e1695b0',
+      group: defaultGroup._id,
       emitter: username,
       room: 'general',
       content: newMessage,
     };
     socket.emit('createMessage', message);
-  }
-
-  const fetchStoredMessages = () => {
-    //todo: implement redux storage for groupId
-    const groupId = '5dcfb2502ee40f4e0e1695b0';
-    api.get(`/messages/${groupId}`)
-      .then(res => {
-        const savedMessages = res.data.map(message => {
-          return {
-            ...message,
-            timestamp: formatDate(message.timestamp)
-          }
-        });
-        setMessages(savedMessages.reverse());
-      })
-      .catch(error => console.error(error));
   }
 
   if (isAuthenticated) {
@@ -118,14 +119,17 @@ const Chat = ({ isAuthenticated, username, onFetchUserData }) => {
 const mapStateToProps = state => {
   return {
     isAuthenticated: state.auth.token !== null,
-    username: state.auth.username
+    username: state.auth.username,
+    defaultGroup: state.groups.defaultGroup
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-      onFetchUserData: (userId) => dispatch(actions.fetchUserData(userId))
+      onFetchUserData: (userId) => dispatch(actions.fetchUserData(userId)),
+      onFetchGroups: () => dispatch(actions.fetchGroups())
   }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Chat);
+

@@ -7,9 +7,11 @@ import thunk from 'redux-thunk';
 
 import App from './App';
 import authReducer from './store/reducers/auth';
+import groupsReducer from './store/reducers/groups';
 
 const rootReducer = combineReducers({
-  auth: authReducer
+  auth: authReducer,
+  groups: groupsReducer
 })
 
 const store = createStore(rootReducer, applyMiddleware(thunk));
