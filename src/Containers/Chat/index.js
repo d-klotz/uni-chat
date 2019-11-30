@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import socketio from 'socket.io-client';
 import Spinner from '@atlaskit/spinner';
+import Sound from 'react-sound';
 
 import * as actions from '../../store/actions';
 import Sidebar from '../../Components/Sidebar';
@@ -13,12 +14,14 @@ import { Container, Content, MessagesContainer } from './styles';
 import { config } from '../../constants';
 import api from '../../services/api';
 import formatDate from '../../utils';
+import notificationSound from '../../assets/sounds/newMessageSound.mp3';
 
 const Chat = ({ isAuthenticated, username, onFetchUserData, onFetchGroups, defaultGroup }) => {
   
   const [userJoined, setUserJoined] = useState(false);
   const [messages, setMessages] = useState([]);
   const [onlineUsers, setOnlineUsers] = useState([]);
+  const [notificationStatus, setNotificationStatus] = useState(Sound.status.STOPPED);
 
   const socket = useMemo(() => socketio(config.url.API_URL, {
     query: { username }
@@ -32,12 +35,13 @@ const Chat = ({ isAuthenticated, username, onFetchUserData, onFetchGroups, defau
 
   useEffect(() => {
     fetchMessages(defaultGroup);
-  }, [defaultGroup])
+  }, [defaultGroup]);
 
   useEffect(() => {
     socket.on('newMessage', (message) => {
       message.timestamp = formatDate(message.timestamp);
       setMessages(previous => [...previous, message]);
+      setNotificationStatus(Sound.status.PLAYING);
     });
 
     socket.on('onlineUsers', (retrievedUsers) => {
@@ -82,7 +86,6 @@ const Chat = ({ isAuthenticated, username, onFetchUserData, onFetchGroups, defau
     }
   }
 
-
   let chatContainer = <Redirect to="/"/>; 
 
   const handleSendMessage = (newMessage) => {
@@ -95,9 +98,19 @@ const Chat = ({ isAuthenticated, username, onFetchUserData, onFetchGroups, defau
     socket.emit('createMessage', message);
   }
 
+  const handleNotificationFinished = () => {
+    setNotificationStatus(Sound.status.STOPPED);
+  }
+
   if (isAuthenticated) {
     chatContainer = (
-      <Container>
+      <Container>        
+        <Sound
+          url={notificationSound}
+          playStatus={notificationStatus}
+          playFromPosition={0}
+          onFinishedPlaying={handleNotificationFinished}
+        />
         <Sidebar color="#222831">
           <SidebarContainer onlineUsers={onlineUsers}/>
         </Sidebar>
