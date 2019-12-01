@@ -11,9 +11,10 @@ import Form, {
   ValidMessage,
 } from '@atlaskit/form';
 
+import api from '../../../services/api';
 import Banner from '../../../Components/Banner';
 import * as actions from '../../../store/actions/index';
-import { Container } from './styles'; 
+import { Container } from './styles';
 
 const LogginForm = ({onAuth, loading, authRedirectPath, isAuthenticated, error}) => {
 
@@ -44,10 +45,11 @@ const LogginForm = ({onAuth, loading, authRedirectPath, isAuthenticated, error})
 
   const validadeUsername = (value, formProps) => {
     if (value.length < 3) {
-      return 'TOO_SHORT'
+      return 'TOO_SHORT';
+    } else {
+      return checkUsernameExist(value)
+        .then(res => res ? 'USERNAME_EXISTS' : undefined);
     }
-
-    return undefined;
   }
 
   let authRedirect = null;
@@ -61,6 +63,12 @@ const LogginForm = ({onAuth, loading, authRedirectPath, isAuthenticated, error})
       <Banner color="red">
       {error.message}
       </Banner>
+  }
+
+  const checkUsernameExist = async (username) => {
+    return await api.get(`/users/checkusername/${username}`)
+      .then(res => res.data.exist)
+      .catch(error => console.log(error));
   }
 
   return (
@@ -137,6 +145,11 @@ const LogginForm = ({onAuth, loading, authRedirectPath, isAuthenticated, error})
                         {error === 'TOO_SHORT' && (
                           <ErrorMessage>
                             This username is too short, use at least 3 characters.
+                          </ErrorMessage>
+                        )}
+                         {error === 'USERNAME_EXISTS' && (
+                          <ErrorMessage>
+                            This username is taken, try another one.
                           </ErrorMessage>
                         )}
                         { valid && meta.dirty&& <ValidMessage>Cool username!</ValidMessage>}
