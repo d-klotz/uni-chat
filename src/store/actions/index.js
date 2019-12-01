@@ -3,9 +3,12 @@ export {
   logout,
   setAuthRedirectPath,
   authCheckState,
-  fetchUserData
 } from './auth';
 
 export {
   fetchGroups
-} from './groups';
+} from './group';
+
+export {
+  fetchUserData
+} from './user';

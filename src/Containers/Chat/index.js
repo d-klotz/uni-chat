@@ -134,8 +134,8 @@ const Chat = ({ isAuthenticated, username, onFetchUserData, onFetchGroups, defau
 const mapStateToProps = state => {
   return {
     isAuthenticated: state.auth.token !== null,
-    username: state.auth.username,
-    defaultGroup: state.groups.defaultGroup
+    username: state.user.username,
+    defaultGroup: state.group.defaultGroup
   }
 }
 
