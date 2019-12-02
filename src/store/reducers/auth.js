@@ -3,10 +3,6 @@ import { updateObject } from '../utility';
 
 const initialState = {
     token: null,
-    userId: null,
-    userName: null,
-    email: null,
-    photo: null,
     error: null,
     loading: false,
     authRedirectPath: '/'
@@ -19,17 +15,8 @@ const authStart = (state, action) => {
 const authSuccess = (state, action) => {
     return updateObject(state, {
         token: action.idToken,
-        userId: action.userId,
         error: null,
         loading: false
-    });
-}
-
-const setOnlineUser = (state, action) => {
-    return updateObject(state, {
-        username: action.username,
-        email: action.email,
-        photo: action.photo
     });
 }
 
@@ -41,7 +28,7 @@ const authFail = (state, action) => {
 }
 
 const authLogout = (state, action) => {
-    return updateObject(state, { token: null, userId: null});
+    return updateObject(state, { token: null });
 }
 
 const setAuthRedirectPath = (state, action) => {
@@ -60,8 +47,6 @@ const reducer = (state = initialState, action) => {
             return authLogout(state, action);
         case actionTypes.SET_AUTH_REDIRECT_PATH:
             return setAuthRedirectPath(state, action);
-        case actionTypes.SET_ONLINE_USER:
-            return setOnlineUser(state, action);
         default:
             return state;
     }

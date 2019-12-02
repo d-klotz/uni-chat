@@ -61,7 +61,7 @@ const SidebarContainer = ({ username, onlineUsers }) => {
 
 const mapStateToProps = state => {
   return {
-      username: state.auth.username
+      username: state.user.username
   }
 }
 

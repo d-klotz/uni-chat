@@ -27,7 +27,7 @@ const MessageList = ({username, messages}) => {
 
 const mapStateToProps = state => {
   return {
-    username: state.auth.username
+    username: state.user.username
   }
 }
 
