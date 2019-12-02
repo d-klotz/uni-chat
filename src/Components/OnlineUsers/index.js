@@ -1,22 +1,28 @@
 import React from 'react';
+import PresenceActiveIcon from '@atlaskit/icon/glyph/presence-active';
 
-import AvatarGroup from '@atlaskit/avatar-group';
-
-import { Container } from './styles';
+import { Container, UserContainer, AvatarPhoto } from './styles';
 
 const OnlineUsers = ({ onlineUsers }) => {
+
+  const users = onlineUsers.map(user => {
+    return (
+      <UserContainer>
+        <span>
+          <PresenceActiveIcon 
+            size="small"
+            primaryColor="green"/>
+        </span>
+        <AvatarPhoto photo={user.photo}/>
+        <p>{user.username}</p>
+      </UserContainer>
+    )
+  });
   
   return (
     <Container>
-      <p>Online Users</p>
-      <div>
-        <AvatarGroup
-          appearance="stack"
-          onAvatarClick={console.log}
-          data={onlineUsers}
-          size="large"
-        />
-      </div>
+      <h3>FRIENDS</h3>
+      <div>{users}</div>
     </Container>
   );
 }

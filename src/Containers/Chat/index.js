@@ -47,12 +47,8 @@ const Chat = ({ isAuthenticated, username, onFetchUserData, onFetchGroups, defau
     socket.on('onlineUsers', (retrievedUsers) => {
       const users = Object.keys(retrievedUsers).map(user => {
         return {
-          key: user,
-          name: user,
-          src: `https://eu.ui-avatars.com/api/?name=${user.substring(0, 2)}`,
-          appearance: 'circle',
-          size: 'medium',
-          enableTooltip: true
+          username: user,
+          photo: `https://eu.ui-avatars.com/api/?name=${user.substring(0, 2)}`,
         }
       });
       setOnlineUsers(users);
