@@ -23,7 +23,7 @@ const SidebarContainer = ({ username, onlineUsers }) => {
           return { label: group.name, value: group._id }
         });
         setGroups(refinedGroups);
-      })
+      });
   }, [userId]);
 
   let fetchedgroups = <Spinner size="medium"/>
