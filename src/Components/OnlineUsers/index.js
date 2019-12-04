@@ -32,9 +32,7 @@ const OnlineUsers = ({ onlineUsers }) => {
       onlineUsersList.map(onlineUser => {
         if (offlineUser.username === onlineUser.username) {
           offlineUser.online = true;
-        } else {
-          offlineUser.online = false;
-        }
+        }  
         return offlineUser;
       })
       return offlineUser;
