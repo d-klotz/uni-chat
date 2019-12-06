@@ -16,7 +16,7 @@ import api from '../../services/api';
 import formatDate from '../../utils';
 import notificationSound from '../../assets/sounds/newMessageSound.mp3';
 
-const Chat = ({ isAuthenticated, username, onFetchUserData, onFetchGroups, defaultGroup }) => {
+const Chat = ({ isAuthenticated, userId, username, onFetchUserData, onFetchGroups, defaultGroup }) => {
   
   const [userJoined, setUserJoined] = useState(false);
   const [messages, setMessages] = useState([]);
@@ -86,6 +86,7 @@ const Chat = ({ isAuthenticated, username, onFetchUserData, onFetchGroups, defau
   const handleSendMessage = (newMessage) => {
     const message = {
       group: defaultGroup._id,
+      emitterId: userId,
       emitter: username,
       room: 'general',
       content: newMessage,
@@ -129,6 +130,7 @@ const Chat = ({ isAuthenticated, username, onFetchUserData, onFetchGroups, defau
 const mapStateToProps = state => {
   return {
     isAuthenticated: state.auth.token !== null,
+    userId: state.user.userId,
     username: state.user.username,
     defaultGroup: state.group.defaultGroup
   }
