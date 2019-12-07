@@ -27,6 +27,15 @@ const MessageList = ({username, messages}) => {
     setSelectecUser(userId);
   }
 
+  const canAgglutinateMessage = (indexFirstMessage, previousMessage, actuallMessage) => {
+    return !isFirstMessage(indexFirstMessage) && previousMessage.emitter === actuallMessage.emitter
+      && previousMessage.timestamp === actuallMessage.timestamp;
+  }
+
+  const isFirstMessage = (indexFirstMessage) => {
+    return indexFirstMessage === 0;
+  }
+
   return (
     <Container>
       {isUserDetailsOpen && (
@@ -40,18 +49,20 @@ const MessageList = ({username, messages}) => {
       {messages.map((message, index) => (
         <ListItem key={index} myMessage={message.emitter === me}>
           <SlideInUp duration="0.5s">
-            <MessageTitle>
-              <UsernameLayout  onClick={(e) => handleShowUserDetails(true, message.emitterId, e)}>
-                {message.emitter}
-              </UsernameLayout>
-              <TimeLayout>{message.timestamp}</TimeLayout>
-            </MessageTitle>
+            {canAgglutinateMessage(index, messages[index === 0 ? 0 : index - 1], message) ? null : (
+                <MessageTitle>
+                  <UsernameLayout onClick={(e) => handleShowUserDetails(true, message.emitterId, e)}>
+                    {message.emitter}
+                  </UsernameLayout>
+                  <TimeLayout>{message.timestamp}</TimeLayout>
+                </MessageTitle>
+              )}
             <MessageContent myMessage={message.emitter === me}>
               {message.content}
             </MessageContent>
-        </SlideInUp>
-          </ListItem>
-      ) )}
+          </SlideInUp>
+        </ListItem>
+      ))}
     </Container>
   );
 }
