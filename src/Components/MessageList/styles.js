@@ -23,14 +23,23 @@ export const MessageContent = styled.div`
   overflow:auto;
 `;
 
-export const TimeLayout = styled.span`
-  font-size: 10px;
-  color: #dddd;
-  font-weight: normal;
-`;
-
 export const MessageTitle = styled.div`
   font-size: 14px;
   font-weight: 500;
   align-self: ${props => props.myMessage ? 'flex-end' : 'flex-start'};
+`;
+
+export const UsernameLayout = styled.span`
+  cursor: pointer;
+  margin-right: 5px;
+
+  :hover {
+    text-decoration: underline;
+  }
+`;
+
+export const TimeLayout = styled.span`
+  font-size: 10px;
+  color: #dddd;
+  font-weight: normal;
 `;
