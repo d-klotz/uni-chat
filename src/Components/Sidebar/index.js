@@ -5,7 +5,7 @@ import { Container } from './styles';
 
 const Sidebar = (props) => {
   return (
-    <Container color={props.color}>
+    <Container>
       <CustomDrawer>
         {props.children}
       </CustomDrawer>

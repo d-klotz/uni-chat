@@ -11,7 +11,7 @@ export const AvatarStyle = styled.div`
 `;
 
 export const UserName = styled.span `
-  color: #00adb5;
+  color: ${({ theme }) => theme.color3};
   font-weight: 500;
   font-size: 18px;
 `;

@@ -4,7 +4,7 @@ import { Container } from './styles';
 
 const Button = (props) => {
   return (
-    <Container color={props.color} onClick={props.clicked}>
+    <Container onClick={props.clicked}>
       {props.children}
     </Container>
   );

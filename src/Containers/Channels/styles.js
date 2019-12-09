@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const Container = styled.div`
   margin: 20px 0;
-  color: #00adb5;
+  color: ${({ theme }) => theme.color3};
 
   p {
     margin: 10px;
@@ -12,7 +12,7 @@ export const Container = styled.div`
   }
 
   p:hover {
-    color: #eeeeee;
+    color: ${({ theme }) => theme.color4};
   }
   
   ul {
@@ -27,7 +27,7 @@ export const Container = styled.div`
   }
 
   li:hover {
-    color: #eeeeee;
+    color: ${({ theme }) => theme.color4};
   }
 `;
 
@@ -35,10 +35,10 @@ export const List = styled.li`
   padding: 10px;
   font-size: 16px;
   cursor: pointer;
-  background-color: ${props => props.selectedChannel ? '#00adb5' : '#222831'};
-  color: ${props => props.selectedChannel ? '#eeeeee' : '#00adb5'};
+  background-color: ${props => props.selectedChannel ? props.theme.color3 : props.theme.color2};
+  color: ${props => props.selectedChannel ? props.theme.color4 : props.theme.color3};
 
   :hover {
-    background-color: ${props => props.selectedChannel ? '#00adb5' : '#3a4750'};
+    background-color: ${props => props.selectedChannel ? props.theme.color3 : props.theme.color1};
   }
 `

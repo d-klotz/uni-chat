@@ -11,6 +11,13 @@ export const setOnlineUser = (id, username, email, photo) => {
   }
 }
 
+export const setUserTheme = (theme) => {
+  return {
+    type: actionTypes.SET_USER_THEME,
+    theme
+  }
+}
+
 export const fetchUserData = (userId) => {
   return async dispatch => {
     return await api.get(`/users/${userId}`)
@@ -24,4 +31,8 @@ export const fetchUserData = (userId) => {
       })
       .catch(error => { console.log(error) });
   };
+}
+
+export const switchTheme = (theme) => {
+  return dispatch => dispatch(setUserTheme(theme));
 }

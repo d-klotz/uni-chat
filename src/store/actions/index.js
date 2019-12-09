@@ -10,5 +10,6 @@ export {
 } from './group';
 
 export {
-  fetchUserData
+  fetchUserData,
+  switchTheme
 } from './user';
