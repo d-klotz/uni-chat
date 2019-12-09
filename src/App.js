@@ -1,28 +1,32 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
+import { ThemeProvider } from 'styled-components';
 
 import * as actions from './store/actions'
 import GlobalStyle from './Styles/global';
 
 import Routes from './routes';
 
-const App = ({ isAuthenticated, onTryAutoSignup }) =>  {
+const App = ({ isAuthenticated, onTryAutoSignup, theme }) =>  {
 
   useEffect(() => {
     onTryAutoSignup();
   }, [onTryAutoSignup]);
 
   return (
-    <div>
-      <GlobalStyle showBackgroundImage={isAuthenticated}/>
-      <Routes />
-    </div>
+    <ThemeProvider theme={theme}>
+      <>
+        <GlobalStyle showBackgroundImage={isAuthenticated}/>
+        <Routes />
+      </>
+    </ThemeProvider>
   );
 }
 
 const mapStateToProps = state => {
   return {
-    isAuthenticated: state.auth.token !== null
+    isAuthenticated: state.auth.token !== null,
+    theme: state.user.theme
   }
 }
 

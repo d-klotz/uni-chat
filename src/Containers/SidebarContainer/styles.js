@@ -12,7 +12,7 @@ export const ContainerItem = styled.div`
 
   p {
     margin: 10px;
-    color: #00adb5;
+    color: ${({ theme }) => theme.color3};
     cursor: pointer;
     flex-grow: 1;
   }

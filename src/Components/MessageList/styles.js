@@ -7,13 +7,13 @@ export const Container = styled.div`
 `;
 
 export const ListItem = styled.span`
+  color: ${({ theme }) => theme.color4};
   margin: 0 10px;
-  color: #eeeeee;
   align-self: flex-start; 
 `;
 
 export const MessageContent = styled.div`
-  background-color: ${props => props.myMessage ? '#00adb5' : '#222831'};
+  background-color: ${props => props.myMessage ? props.theme.color3 : props.theme.color2};
   font-size: 16px;
   border-radius: 20px;
   margin-top: 10px;
@@ -27,6 +27,7 @@ export const MessageTitle = styled.div`
   margin: 10px 0;
   font-size: 14px;
   font-weight: 500;
+  color: ${({ theme }) => theme.color5};
   align-self: ${props => props.myMessage ? 'flex-end' : 'flex-start'};
 `;
 
@@ -41,6 +42,5 @@ export const UsernameLayout = styled.span`
 
 export const TimeLayout = styled.span`
   font-size: 10px;
-  color: #dddd;
   font-weight: normal;
 `;

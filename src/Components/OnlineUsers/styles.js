@@ -6,7 +6,7 @@ export const Container = styled.div`
     margin: 0 10px;
     padding-top: 20px;
     padding-bottom: 15px;
-    color: #00adb5;
+    color: ${({ theme }) => theme.color3};
   }
 `;
 

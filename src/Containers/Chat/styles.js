@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-  background-color: #3a4750;
+  background-color: ${({ theme }) => theme.color1};
   display: flex;
   flex-flow: row;
   height: 100vh;
@@ -28,15 +28,15 @@ export const MessagesContainer = styled.div`
   }
 
   ::-webkit-scrollbar-track {
-    background: #3a4750; 
+    background: ${({ theme }) => theme.color1}; 
   }
   
   ::-webkit-scrollbar-thumb {
-    background: #3a4750; 
+    background: ${({ theme }) => theme.color1}; 
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background: #3a4750; 
+    background: ${({ theme }) => theme.color1}; 
   }
 
 `;

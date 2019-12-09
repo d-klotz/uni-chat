@@ -9,6 +9,7 @@ import api from '../../services/api';
 import User from '../../Components/User';
 import OnlineUsers from '../../Components/OnlineUsers';
 import { Container, ContainerItem, GroupListContainer } from './styles';
+import ThemeSwitcher from '../../Components/ThemeSwitcher';
 
 const SidebarContainer = ({ username, onlineUsers }) => {
 
@@ -54,6 +55,7 @@ const SidebarContainer = ({ username, onlineUsers }) => {
         {fetchedgroups}
         <OnlineUsers onlineUsers={onlineUsers} />
       </ContainerItem>
+      <ThemeSwitcher />
     </Container>
   );
 }

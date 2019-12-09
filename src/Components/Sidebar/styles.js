@@ -4,7 +4,7 @@ export const Container = styled.header`
 
   nav {
     height: 100%;
-    background-color: ${props => props.color};
+    background-color: ${({ theme }) => theme.color2};
     width: 15%;
     min-width: 200px;
     display: flex;

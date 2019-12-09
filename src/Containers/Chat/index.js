@@ -10,6 +10,7 @@ import Sidebar from '../../Components/Sidebar';
 import MessageList from '../../Components/MessageList';
 import MessageInput from '../../Components/MessageInput';
 import SidebarContainer from '../../Containers/SidebarContainer';
+
 import { Container, Content, MessagesContainer } from './styles';
 import { config } from '../../constants';
 import api from '../../services/api';
@@ -107,7 +108,7 @@ const Chat = ({ isAuthenticated, userId, username, onFetchUserData, onFetchGroup
           playFromPosition={0}
           onFinishedPlaying={handleNotificationFinished}
         />
-        <Sidebar color="#222831">
+        <Sidebar>
           <SidebarContainer onlineUsers={onlineUsers}/>
         </Sidebar>
         <Content>
@@ -116,8 +117,7 @@ const Chat = ({ isAuthenticated, userId, username, onFetchUserData, onFetchGroup
             {messages.length > 0 && <MessageList messages={messages}/>}
           </MessagesContainer>
           <MessageInput 
-            placeholder="Write your message..." 
-            buttonColor="#393e46"
+            placeholder="Write your message..."
             clicked={newMessage => handleSendMessage(newMessage)}/>
         </Content>
       </Container>

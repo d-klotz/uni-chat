@@ -9,3 +9,4 @@ export const SET_GROUPS = 'SET_GROUPS';
 export const SET_DEFAULT_GROUP = 'SET_DEFAULT_GROUP';
 
 export const SET_ONLINE_USER = 'SET_ONLINE_USER';
+export const SET_USER_THEME = 'SET_USER_THEME';

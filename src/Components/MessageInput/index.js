@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
 
 import SendIcon from '@atlaskit/icon/glyph/send';
 import EmojiAddIcon from '@atlaskit/icon/glyph/emoji-add';
@@ -51,7 +52,7 @@ import { Container, Input } from './styles';
     <Container>
       <span>
         <div onClick={() => handleEmojiDrawer()}>
-          <EmojiAddIcon />
+          <EmojiAddIcon primaryColor={props.theme.color2}/>
         </div>
         {showEmojiDrawer && emojiContainer}
       </span>
@@ -62,11 +63,17 @@ import { Container, Input } from './styles';
         value={value}
         onChange={e => valueChanged(e)}
       />
-      <Button color={props.buttonColor} clicked={() => clicked()}>
+      <Button clicked={() => clicked()}>
         <SendIcon />
       </Button>
     </Container>
   );
 }
 
-export default MessageInput;
+const mapStateToProps = state => {
+  return {
+    theme: state.user.theme
+  }
+}
+
+export default connect(mapStateToProps, null)(MessageInput);
