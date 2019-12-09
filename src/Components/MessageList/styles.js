@@ -1,14 +1,14 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-  /* max-width: 50%; */
   display: flex;
   flex-flow: column;
+  margin-bottom: 10px;
 `;
 
 export const ListItem = styled.span`
-  margin: 10px;
   color: ${({ theme }) => theme.color4};
+  margin: 0 10px;
   align-self: flex-start; 
 `;
 
@@ -24,6 +24,7 @@ export const MessageContent = styled.div`
 `;
 
 export const MessageTitle = styled.div`
+  margin: 10px 0;
   font-size: 14px;
   font-weight: 500;
   color: ${({ theme }) => theme.color5};
