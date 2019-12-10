@@ -1,13 +1,12 @@
 import * as actionTypes from '../actions/actionTypes';
 import { updateObject } from '../utility';
-import * as theme from '../../Styles/theme';
 
 const initialState = {
     userId: null,
     userName: null,
     email: null,
     photo: null,
-    theme: theme.darkTheme
+    themeName: 'darkTheme'
 };
 
 const setOnlineUser = (state, action) => {
@@ -15,13 +14,14 @@ const setOnlineUser = (state, action) => {
       userId: action.id,
       username: action.username,
       email: action.email,
-      photo: action.photo
+      photo: action.photo,
+      themeName: action.themeName
   });
 }
 
 const setUserTheme = (state, action) => {
   return updateObject(state, {
-    theme: action.theme
+    themeName: action.themeName
   })
 }
 

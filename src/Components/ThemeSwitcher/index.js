@@ -1,33 +1,36 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 
 import * as actions from '../../store/actions';
 import { Container, SwitchButton } from './styles';
-import * as theme from '../../Styles/theme';
 
-const ThemeSwitcher = ({onSwitchTheme}) => {
-
-  const [choosenTheme, setChoosenTheme] = useState(theme.lightTheme);
+const ThemeSwitcher = ({onSwitchTheme, themeName, userId}) => {
 
   const toggleTheme = () => {
-    setChoosenTheme(previous => previous === theme.lightTheme ? theme.darkTheme : theme.lightTheme);
-    onSwitchTheme(choosenTheme);
+    onSwitchTheme(userId, themeName === 'darkTheme' ? 'lightTheme' : 'darkTheme');
   }
 
   return (
     <Container>
       <SwitchButton>
         <input type="checkbox" id="switch" onChange={() => toggleTheme()}/>
-        <label for="switch">Toggle</label>
+        <label htmlFor="switch">Toggle</label>
       </SwitchButton>
     </Container>
   );
 }
 
-const mapDispatchToProps = dispatch => {
+const mapStateToProps = state => {
   return {
-      onSwitchTheme: (theme) => dispatch(actions.switchTheme(theme)),
+    userId: state.user.userId,
+    themeName: state.user.themeName
   }
 }
 
-export default connect(null, mapDispatchToProps)(ThemeSwitcher);
+const mapDispatchToProps = dispatch => {
+  return {
+      onSwitchTheme: (userId, themeName) => dispatch(actions.switchTheme(userId, themeName)),
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ThemeSwitcher);

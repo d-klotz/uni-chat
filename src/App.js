@@ -5,16 +5,18 @@ import { ThemeProvider } from 'styled-components';
 import * as actions from './store/actions'
 import GlobalStyle from './Styles/global';
 
+import * as theme from './Styles/theme';
+
 import Routes from './routes';
 
-const App = ({ isAuthenticated, onTryAutoSignup, theme }) =>  {
+const App = ({ isAuthenticated, onTryAutoSignup, themeName }) =>  {
 
   useEffect(() => {
     onTryAutoSignup();
   }, [onTryAutoSignup]);
 
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={theme[themeName]}>
       <>
         <GlobalStyle showBackgroundImage={isAuthenticated}/>
         <Routes />
@@ -26,7 +28,7 @@ const App = ({ isAuthenticated, onTryAutoSignup, theme }) =>  {
 const mapStateToProps = state => {
   return {
     isAuthenticated: state.auth.token !== null,
-    theme: state.user.theme
+    themeName: state.user.themeName
   }
 }
 

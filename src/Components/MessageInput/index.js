@@ -5,6 +5,7 @@ import SendIcon from '@atlaskit/icon/glyph/send';
 import EmojiAddIcon from '@atlaskit/icon/glyph/emoji-add';
 import 'emoji-mart/css/emoji-mart.css'
 import EmojiDrawer from '../EmojiDrawer';
+import * as theme from '../../Styles/theme';
 
 import Button from '../Button';
 import { Container, Input } from './styles';
@@ -52,7 +53,7 @@ import { Container, Input } from './styles';
     <Container>
       <span>
         <div onClick={() => handleEmojiDrawer()}>
-          <EmojiAddIcon primaryColor={props.theme.color2}/>
+          <EmojiAddIcon primaryColor={theme[props.themeName].color2}/>
         </div>
         {showEmojiDrawer && emojiContainer}
       </span>
@@ -72,7 +73,7 @@ import { Container, Input } from './styles';
 
 const mapStateToProps = state => {
   return {
-    theme: state.user.theme
+    themeName: state.user.themeName
   }
 }
 
