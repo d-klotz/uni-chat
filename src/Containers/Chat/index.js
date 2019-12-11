@@ -10,6 +10,7 @@ import Sidebar from '../../Components/Sidebar';
 import MessageList from '../../Components/MessageList';
 import MessageInput from '../../Components/MessageInput';
 import SidebarContainer from '../../Containers/SidebarContainer';
+import LoadingScreen from '../LoadingScreen';
 
 import { Container, Content, MessagesContainer } from './styles';
 import { config } from '../../constants';
@@ -22,6 +23,7 @@ const Chat = ({ isAuthenticated, userId, username, onFetchUserData, onFetchGroup
   const [userJoined, setUserJoined] = useState(false);
   const [messages, setMessages] = useState([]);
   const [onlineUsers, setOnlineUsers] = useState([]);
+  const [isFakeloading, setIsFakeLoading] = useState(false);
   const [notificationStatus, setNotificationStatus] = useState(Sound.status.STOPPED);
 
   const socket = useMemo(() => socketio(config.url.API_URL, {
@@ -32,6 +34,7 @@ const Chat = ({ isAuthenticated, userId, username, onFetchUserData, onFetchGroup
     const userId = localStorage.getItem('userId');
     onFetchUserData(userId);
     onFetchGroups();
+    setIsFakeLoading(true);
   }, [onFetchGroups, onFetchUserData]);
 
   useEffect(() => {
@@ -99,8 +102,15 @@ const Chat = ({ isAuthenticated, userId, username, onFetchUserData, onFetchGroup
     setNotificationStatus(Sound.status.STOPPED);
   }
 
+  const startLoading = () => {
+    setTimeout(() => {
+      setIsFakeLoading(false);
+    }, 6000);
+  }
+
   if (isAuthenticated) {
-    chatContainer = (
+    startLoading();
+    chatContainer = isFakeloading ? <LoadingScreen /> : (
       <Container>        
         <Sound
           url={notificationSound}
@@ -121,7 +131,7 @@ const Chat = ({ isAuthenticated, userId, username, onFetchUserData, onFetchGroup
             clicked={newMessage => handleSendMessage(newMessage)}/>
         </Content>
       </Container>
-    )
+    )  
   }
 
   return chatContainer;
