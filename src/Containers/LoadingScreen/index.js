@@ -1,6 +1,6 @@
 import React from 'react';
 import Lottie from 'react-lottie';
-import animationData from '../../lotties/6527-conversation.json';
+import animationData from '../../assets/lotties/6527-conversation.json';
 
 import { Container } from './styles'; 
 import { BounceOut } from 'animate-css-styled-components';
