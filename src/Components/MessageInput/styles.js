@@ -26,7 +26,7 @@ export const Input = styled.input.attrs(props => ({
   placeholder: props.placeholder
 }))`
   background: ${({ theme }) => theme.color4};
-  color: ${({ theme }) => theme.color5};
+  color: ${({ theme }) => theme.colorMessageInput};
   border: none;
   border-radius: 20px;
   font-size: 16px;

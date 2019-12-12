@@ -4,6 +4,7 @@ export const lightTheme = {
   color3: '#49beb7',
   color4: '#dfdfdf',
   color5: '#393e46',
+  colorMessageInput: '#393e46',
 }
 
 export const darkTheme = {
@@ -12,4 +13,5 @@ export const darkTheme = {
   color3: '#00adb5',
   color4: '#eeeeee',
   color5: '#e8e8e8',
+  colorMessageInput: '#393e46',
 }
