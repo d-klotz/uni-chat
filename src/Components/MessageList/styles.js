@@ -12,7 +12,7 @@ export const ListItem = styled.span`
   align-self: flex-start; 
 `;
 
-export const MessageContent = styled.div`
+export const MessageContentText = styled.div`
   background-color: ${props => props.myMessage ? props.theme.color3 : props.theme.color2};
   font-size: 16px;
   border-radius: 20px;
@@ -21,6 +21,16 @@ export const MessageContent = styled.div`
   min-height: 30px;  
   position: relative;
   overflow:auto;
+`;
+
+export const MessageContentImage = styled.a`
+  margin-top: 10px;
+  padding: 5px 0;
+  height: 300px;
+  width: 200px;  
+  position: relative;
+  overflow: auto;
+  cursor: pointer;
 `;
 
 export const MessageTitle = styled.div`
