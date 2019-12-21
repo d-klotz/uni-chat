@@ -34,3 +34,13 @@ export const Input = styled.input.attrs(props => ({
   height: 100%;
   padding: 5px;
 `;
+
+export const ImagePreviewBorder = styled.div`
+  border: 1px dotted #cccc;
+  border-radius: 5px;
+  width: 95%;
+  height: 70%;
+  margin: 10px;
+  overflow: hidden;
+  text-align: center;
+`;

@@ -111,7 +111,7 @@ const Chat = ({ isAuthenticated, userId, username, onFetchUserData, onFetchGroup
   if (isAuthenticated) {
     startLoading();
     chatContainer = isFakeloading ? <LoadingScreen /> : (
-      <Container>        
+      <Container>      
         <Sound
           url={notificationSound}
           playStatus={notificationStatus}

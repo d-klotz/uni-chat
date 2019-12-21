@@ -7,7 +7,8 @@ import UserDetailsCard from '../UserDetailsCard';
 import { 
   Container, 
   ListItem, 
-  MessageContent, 
+  MessageContentText, 
+  MessageContentImage,
   TimeLayout, 
   MessageTitle, 
   UsernameLayout } from './styles';
@@ -57,9 +58,19 @@ const MessageList = ({username, messages}) => {
                   <TimeLayout>{message.timestamp}</TimeLayout>
                 </MessageTitle>
               )}
-            <MessageContent myMessage={message.emitter === me}>
-              {message.content}
-            </MessageContent>
+            {message.content.type === 'text' && (
+              <MessageContentText myMessage={message.emitter === me}>
+                {message.content.value}
+              </MessageContentText>
+            )
+            }
+            {message.content.type === 'image' && (
+              <MessageContentImage myMessage={message.emitter === me} target="_blank" href={message.content.value}>
+                <img id="test" src={message.content.value} alt={message.content.value} height="210"/>
+              </MessageContentImage>
+            )
+            }
+              
           </SlideInUp>
         </ListItem>
       ))}
