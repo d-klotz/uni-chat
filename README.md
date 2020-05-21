@@ -2,7 +2,7 @@
 
 ### This is a ReactJs project made for fun.
 
-<img src="screenshots/presentation.png" />
+<img src="screenshots/presentation_cover.png" />
 
 ### :collision: Tech Stack
 
